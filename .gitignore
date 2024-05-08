@@ -1,0 +1,34 @@
+# Node.js
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# Dependency directories
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Testing
+coverage/
+
+# Environment variables
+.env
+
+# Build output
+dist/
+build/
+out/
+
+# Editor and IDE files
+.vscode/
+.idea/
+*.sublime-*
+*.swp
+*.swo
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
