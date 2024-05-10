@@ -17,9 +17,7 @@ coverage/
 # Environment variables
 .env
 
-# Google credential
 
-src/mercadopagosheets-f761c5f10cbc.json
 # Build output
 dist/
 build/
@@ -35,3 +33,4 @@ out/
 # Miscellaneous
 .DS_Store
 Thumbs.db
+.vercel

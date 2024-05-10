@@ -1,8 +1,9 @@
+// const fetch = require('node-fetch');
+const { MercadoPagoConfig, Payment, Preference } = require('mercadopago');
+const { google } = require('googleapis');
+const dotenv = require('dotenv');
 
-import { MercadoPagoConfig, Payment, Preference } from 'mercadopago';
-import { google } from 'googleapis';
-import dotenv from 'dotenv';
-export const createOrder = async (req, res) => {
+exports.createOrder = async (req, res) => {
     dotenv.config();
     
     const client = new MercadoPagoConfig({ accessToken: process.env.ACCESS_TOKEN });
@@ -18,7 +19,7 @@ export const createOrder = async (req, res) => {
                     unit_price: 1.0
                 }
             ],
-            notification_url: "https://413d-2803-c180-2000-2b58-99cb-9f87-b99a-3293.ngrok-free.app/webhook",
+            notification_url: "https://m30mmercadopago.vercel.app/webhook",
         }
     });
     console.log(result);
@@ -27,8 +28,8 @@ export const createOrder = async (req, res) => {
 
 async function appendData(auth, values) {
     const sheets = google.sheets({ version: 'v4', auth });
-    const spreadsheetId = '1BIhIl56LRCID8D3fcDcncmoE9UgoQXQEA9qhrJnqSRg'; // Reemplaza esto con el ID de tu hoja de cálculo
-    const range = 'Hoja 1!A:F';  // Asume que quieres añadir datos en las columnas A a C
+    const spreadsheetId = '1BIhIl56LRCID8D3fcDcncmoE9UgoQXQEA9qhrJnqSRg';
+    const range = 'Hoja 1!A:F';
     const valueInputOption = 'USER_ENTERED';
 
     const request = {
@@ -48,8 +49,7 @@ async function appendData(auth, values) {
     }
 }
 
-
-export const webhook = async (req, res) => {
+exports.webhook = async (req, res) => {
     const paymentId = req.query['data.id'];
 
     try {
@@ -65,15 +65,13 @@ export const webhook = async (req, res) => {
             const infopay = [
                 [data.order.id, data.payer.email, data.description, data.transaction_details.total_paid_amount ,data.currency_id, data.date_approved]
             ];
-            const KEYFILEPATH = 'src/mercadopagosheets-f761c5f10cbc.json';
+            const KEYFILEPATH = 'api/mercadopagosheets-f761c5f10cbc.json';
             const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 
             const auth = new google.auth.GoogleAuth({
                 keyFile: KEYFILEPATH,
                 scopes: SCOPES
             });
-
-            
 
             appendData(auth, infopay);
 
@@ -84,4 +82,4 @@ export const webhook = async (req, res) => {
         console.log(error);
         res.sendStatus(500);
     }
-}
+};
