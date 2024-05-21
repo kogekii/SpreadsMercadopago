@@ -4,7 +4,7 @@ node_modules/
 # Logs
 logs/
 *.log
-
+ngrok.exe
 # Dependency directories
 pids/
 *.pid
